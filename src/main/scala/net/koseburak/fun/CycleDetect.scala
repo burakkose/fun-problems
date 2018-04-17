@@ -1,10 +1,10 @@
 package net.koseburak.fun
 
-object CycleDetect {
+object CycleDetect extends App {
   sealed trait List {
     def size: Int
   }
-  case class Cons(value: Int, var tail: List) extends List {
+  case class Cons(value: Int, var tail: List = Nil) extends List {
     override def size: Int = 1 + tail.size
   }
   case object Nil extends List {
@@ -12,19 +12,34 @@ object CycleDetect {
   }
 
   def detectAndRemove(list: List): Unit = {
-    def inner(slow: List, fast: List): Unit = {
+    import scala.annotation.tailrec
+    @tailrec
+    def destory(slow: List, fast: List): Unit =
       (slow, fast) match {
-        case (Cons(_, newSlow @ _), Cons(_, p2 @ Cons(_, newFast @ _))) =>
+        case (Cons(m1, slowNext), fast @ Cons(m2, fastNext)) =>
+          println(s"destroy $m1 and $m2")
+          if (slowNext ne fastNext)
+            destory(slowNext, fastNext)
+          else fast.tail = Nil
+        case _ => ()
+      }
+    @tailrec
+    def inner(slow: List, fast: List): Unit =
+      (slow, fast) match {
+        case (Cons(_, newSlow: Cons), Cons(_, _ @Cons(_, newFast: Cons))) =>
+          println(s"cheching ${newSlow.value} and ${newFast.value}")
           if (newSlow eq newFast) {
-            newFast.asInstanceOf[Cons].tail = Nil
-            println(list)
+            destory(list, newFast)
           } else inner(newSlow, newFast)
         case _ => ()
       }
-    }
     inner(list, list)
   }
 
+  val temp: Cons = Cons(15, Cons(4, Cons(10)))
+  temp.tail.asInstanceOf[Cons].tail.asInstanceOf[Cons].tail = temp
+  val head = Cons(50, Cons(20, temp))
+
   detectAndRemove(head)
-  println(head.size)
+  println(head)
 }

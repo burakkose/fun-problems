@@ -7,9 +7,7 @@ object DifferencePair {
   def find(arr: Array[Int], k: Int): List[(Int, Int)] = {
     val length = arr.length
     @tailrec
-    def inner(idx: Int,
-              solutions: List[(Int, Int)],
-              set: Set[Int]): List[(Int, Int)] = {
+    def inner(idx: Int, solutions: List[(Int, Int)], set: Set[Int]): List[(Int, Int)] =
       if (idx < length) {
         val elem = arr(idx)
         val need1 = elem + k
@@ -22,19 +20,8 @@ object DifferencePair {
         } else
           inner(idx + 1, solutions, set ++ newSet)
       } else solutions
-    }
     inner(0, List.empty[(Int, Int)], Set.empty[Int])
   }
 
   find(arr, 60)
-
-
-  def find2(arr: Array[Int], k: Int): Int = {
-    val map = arr.groupBy(identity).mapValues(_.length)
-    arr.foldLeft(0){ case (count, elem) =>
-
-    }
-  }
-
-
 }
