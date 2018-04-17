@@ -2,15 +2,11 @@ package net.koseburak.fun
 
 object ConnectNodes {
   sealed trait Tree
-  case class Node(value: Int,
-                  left: Tree = Nil,
-                  right: Tree = Nil,
-                  var next: Option[Tree] = None)
-      extends Tree
+  case class Node(value: Int, left: Tree = Nil, right: Tree = Nil, var next: Option[Tree] = None) extends Tree
   case object Nil extends Tree
 
-  def connect(tree: Tree): Tree = {
-    def inner(queue: List[Tree]): Unit = {
+  def connect(tree: Tree): Unit = {
+    def inner(queue: List[Tree]): Unit =
       if (queue.isEmpty) ()
       else {
         val peek = queue.head
@@ -29,7 +25,6 @@ object ConnectNodes {
         }
 
       }
-    }
     inner(List(tree))
   }
 }

@@ -30,6 +30,7 @@ object SuffixTreeSolution {
           node.children(q.head).search(q.tail)
         else List.empty[Int]
       }
+      inner(this, query)
     }
   }
 

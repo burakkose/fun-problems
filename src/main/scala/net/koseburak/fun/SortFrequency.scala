@@ -13,11 +13,13 @@ object SortFrequency {
     scala.util.Sorting.stableSort(arr, (e1: Int, e2: Int) => frequency(e1) > frequency(e2))
   }
 
+/*
   def sortInPlaceQuickSort(arr: Array[Int]): Unit = {
     val frequency = arr.groupBy(identity).mapValues(_.length)
     implicit val ev = Ordering.by[Int, Int](frequency(_))
     scala.util.Sorting.quickSort(arr)(ev)
   }
+*/
 
   sortByFrequency(arr)
 }

@@ -7,7 +7,7 @@ object MedianOfStream {
     val leftHeap = mutable.PriorityQueue[Int]()
     val rightHeap = mutable.PriorityQueue[Int]()(Ordering.by[Int, Int](-_))
     @tailrec
-    def inner(l: List[Int], acc: List[Int]): List[Int] = {
+    def inner(l: List[Int], acc: List[Int]): List[Int] =
       l match {
         case h :: t =>
           if (leftHeap.size > rightHeap.size) {
@@ -35,9 +35,8 @@ object MedianOfStream {
               inner(t, rightHeap.head :: acc)
             }
           }
-        case Nil => acc.reverse.tail
+        case _ => acc.reverse.tail
       }
-    }
     inner(list, List(0))
   }
 
